@@ -1,5 +1,7 @@
 package dev;
 
+import com.ibm.watson.developer_cloud.http.HttpMediaType;
+import com.ibm.watson.developer_cloud.speech_to_text.v1.model.RecognizeOptions;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.ApiContextInitializer;
@@ -13,7 +15,12 @@ public class App {
     public static void main( String[] args ) {
         // Initialize Api Context
         ApiContextInitializer.init();
-    	
+
+        RecognizeOptions.Builder recognizeOptionsBuilder = new RecognizeOptions.Builder();
+        recognizeOptionsBuilder.contentType(HttpMediaType.AUDIO_OGG);
+        RecognizeOptions recognizeOptions =recognizeOptionsBuilder.build();
+        SpeechToTextTest.init(recognizeOptions);
+
         // Instantiate Telegram Bots API
         TelegramBotsApi botsApi = new TelegramBotsApi();
 
