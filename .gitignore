@@ -3,3 +3,5 @@ Code/.settings/*
 .metadata/*
 .classpath
 .project
+.recommenders/
+*.properties
