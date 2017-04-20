@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
     <Appenders>
-        <File name="A1" fileName="A1.log" append="false">
+        <File name="App" fileName="log/App.log" append="false">
             <PatternLayout pattern="%t %-5p %c{2} - %m%n"/>
         </File>
         <Console name="STDOUT" target="SYSTEM_OUT">
@@ -10,10 +10,13 @@
     </Appenders>
     <Loggers>
 
-        <!-- You my want to define class or package level per-logger rules -->
         <Logger name="core.botson.App" level="debug">
-            <AppenderRef ref="A1"/>
+            <AppenderRef ref="App"/>
         </Logger>
+        <Logger name="core.botson.App" level="error">
+            <AppenderRef ref="App"/>
+        </Logger>
+
         <Root level="info">
             <AppenderRef ref="STDOUT"/>
         </Root>

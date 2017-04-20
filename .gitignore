@@ -1,6 +1,9 @@
 Code/target/*
 Code/.settings/*
 .metadata/*
+Code/.idea/*
+Code/*.iml
+Code/log/*
 .classpath
 .project
 .recommenders/
