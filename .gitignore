@@ -8,3 +8,4 @@ Code/log/*
 .project
 .recommenders/
 *.properties
+Code/.gitignore

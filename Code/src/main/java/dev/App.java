@@ -17,9 +17,11 @@ public class App {
         ApiContextInitializer.init();
 
         RecognizeOptions.Builder recognizeOptionsBuilder = new RecognizeOptions.Builder();
-        recognizeOptionsBuilder.contentType(HttpMediaType.AUDIO_OGG);
-        RecognizeOptions recognizeOptions =recognizeOptionsBuilder.build();
-        SpeechToTextTest.init(recognizeOptions);
+        RecognizeOptions recognizeOptions = recognizeOptionsBuilder
+        		.contentType(HttpMediaType.AUDIO_OGG)
+        		.smartFormatting(true)
+        		.build();
+        SpeechToTextController.init(recognizeOptions);
 
         // Instantiate Telegram Bots API
         TelegramBotsApi botsApi = new TelegramBotsApi();
