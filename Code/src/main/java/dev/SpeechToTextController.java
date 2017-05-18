@@ -19,7 +19,7 @@ public class SpeechToTextController {
     public static void init(RecognizeOptions options) {
         service = new SpeechToText();
         service.setUsernameAndPassword(Messages.getString("SpeechToText.username"), Messages.getString("SpeechToText.password"));
-        service.setEndPoint("https://stream-fra.watsonplatform.net/speech-to-text/api");
+        service.setEndPoint("https://stream.watsonplatform.net/speech-to-text/api");
         recognizeOptions = options;
     }
 

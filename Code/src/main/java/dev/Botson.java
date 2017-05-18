@@ -34,7 +34,11 @@ public class Botson extends TelegramLongPollingBot {
 		}
 	}
 	
-	
+	/**
+	 * Download a voice message, upload it to Watson and send the results as chat message
+	 * @param update
+	 * 			Telegram update object
+	 */
 	private void speechToText(Update update){
 		GetFile getFile = new GetFile();
 		getFile.setFileId(update.getMessage().getVoice().getFileId());
