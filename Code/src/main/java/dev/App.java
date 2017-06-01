@@ -13,16 +13,20 @@ public class App {
     private static Logger log = LogManager.getLogger(App.class);
 
     public static void main( String[] args ) {
-        // Initialize Api Context
+        //Initialze Message class
+    	Messages.init();
+    	
+    	// Initialize Api Context
         ApiContextInitializer.init();
 
+        // Initialize Speech to Text Controller
         RecognizeOptions.Builder recognizeOptionsBuilder = new RecognizeOptions.Builder();
         RecognizeOptions recognizeOptions = recognizeOptionsBuilder
         		.contentType(HttpMediaType.AUDIO_OGG)
         		.smartFormatting(true)
         		.build();
         SpeechToTextController.init(recognizeOptions);
-
+        
         // Instantiate Telegram Bots API
         TelegramBotsApi botsApi = new TelegramBotsApi();
 

@@ -10,7 +10,7 @@ import org.json.JSONObject;
 public class Messages {
 	private static final String BUNDLE_NAME = "messages";
 
-	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
+	private static ResourceBundle RESOURCE_BUNDLE;
 
 	private static boolean propFile = false;
 	private static Map<String, String> properties = new TreeMap<String, String>();
@@ -25,6 +25,7 @@ public class Messages {
 		
 		if (prop.exists() && !prop.isDirectory()) {
 			propFile = true;
+			RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
 		}
 		else {
 			properties.put("Botson.token", System.getenv("Botson.token"));
