@@ -10,3 +10,4 @@ Code/log/*
 *.properties
 Code/.gitignore
 Code/audio/
+Code/media/

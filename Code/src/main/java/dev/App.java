@@ -27,6 +27,9 @@ public class App {
         		.build();
         SpeechToTextController.init(recognizeOptions);
         
+        // Initialize Visual Recognition Controller
+        VisualRecognitionController.init();
+        
         // Instantiate Telegram Bots API
         TelegramBotsApi botsApi = new TelegramBotsApi();
 
@@ -36,10 +39,5 @@ public class App {
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
-    	
-//        log.debug("With respect to logging you may want to configure file ");
-//        log.debug("'src/main/resources/log4j2.xml' to suit your needs.");
-//        log.debug("This config file 'log4j2.xml' will result in 'A1.log'");
-//        log.debug("file containing logging output as well.");
     }
 }
