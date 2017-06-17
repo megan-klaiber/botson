@@ -20,6 +20,8 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 import com.ibm.watson.developer_cloud.speech_to_text.v1.model.SpeechResults;
+import com.ibm.watson.developer_cloud.visual_recognition.v3.model.DetectedFaces;
+import com.ibm.watson.developer_cloud.visual_recognition.v3.model.Face;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassification;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassifier;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassifier.VisualClass;
@@ -43,6 +45,7 @@ public class Botson extends TelegramLongPollingBot {
 	
 	/**
 	 * Download a photo, upload it to Watson and send the results as chat message
+	 * make a classification and a face detection
 	 * @param update
 	 * 			Telegram update object
 	 */
@@ -56,19 +59,18 @@ public class Botson extends TelegramLongPollingBot {
 			
 			if(fetchedFile != null){
 				// get the results of the classification 
-				VisualClassification result = VisualRecognitionController.analyzeImage(fetchedFile);
+				VisualClassification resultClassification = VisualRecognitionController.analyzeImage(fetchedFile);
 				// get the classifiers
-				List<VisualClassifier> classifiers = result.getImages().get(0).getClassifiers();
-				
-				// build the chat message with the results
-				String text = "Classification:";
+				List<VisualClassifier> classifiers = resultClassification.getImages().get(0).getClassifiers();
+				// build the chat message with the results of the classification
+				String classification = "Classification:";
 				
 				DecimalFormat f = new DecimalFormat("#0.0"); 
 				
 				for(VisualClassifier vc: classifiers){
 					// get the classifier
 					String classifierId = vc.getId();
-					text += "\n\n" + classifierId + " classifier:\n";
+					classification += "\n\n" + classifierId + " classifier:\n";
 					
 					// get the classes with the names and scores
 					List<VisualClass> classes = vc.getClasses();	
@@ -76,11 +78,36 @@ public class Botson extends TelegramLongPollingBot {
 						String c = vcl.getName();
 						String s = f.format(vcl.getScore() * 100);
 						
-						text += "\n" + s + "% " + c;
+						classification += "\n" + s + "% " + c;
 					}
 				}
-				prepareAndSendMessage(update, text);
+				prepareAndSendMessage(update, classification);
 				
+				// get the result of the face detection
+				DetectedFaces resultDetection = VisualRecognitionController.faceDetection(fetchedFile);
+				// get the faces
+				List<Face> faces = resultDetection.getImages().get(0).getFaces();
+				
+				// check if there are detected faces
+				if(!faces.isEmpty()){
+					// build the chat message with the results of the face detection
+					String detection = "Face Detection:";
+					
+					// get the information about the faces
+					for(Face face: faces){
+						Integer maxAge = face.getAge().getMax();
+						Integer minAge = face.getAge().getMin();
+						String scoreAge = f.format(face.getAge().getScore() * 100);
+						
+						String gender = face.getGender().getGender().toLowerCase();
+						String scoreGender = f.format(face.getGender().getScore() * 100);
+						
+						detection += "\n\n" + scoreGender + "% " + gender
+								+ "\nAge (" + scoreAge + "%):\n   max: " + maxAge
+								+ "\n   min: " + minAge;
+					}
+					prepareAndSendMessage(update, detection);
+				}
 			} else {
 				System.err.println("Something went wrong!");
 			}
@@ -106,10 +133,15 @@ public class Botson extends TelegramLongPollingBot {
 				SpeechResults result = SpeechToTextController.analyzeFile(fetchedFile);
 				// get the username
 				String username = update.getMessage().getFrom().getFirstName();
-				// get the text of the voice message
-				String text = result.getResults().get(0).getAlternatives().get(0).getTranscript();
-				
-				prepareAndSendMessage(update, username + ":\n" + text);
+				// check if the result is empty
+				// if not get the text of the voice message
+				if(!result.getResults().isEmpty()){
+					String text = result.getResults().get(0).getAlternatives().get(0).getTranscript();
+					prepareAndSendMessage(update, username + ":\n" + text);
+				} else {
+					String text = "Sorry " + username + ", I couldn't understand your voice message!";
+					prepareAndSendMessage(update, text);
+				}
 			} else {
 				System.err.println("Something went wrong!");
 			}
@@ -146,6 +178,8 @@ public class Botson extends TelegramLongPollingBot {
 	 * 
 	 * @param filepath 
 	 * 			url to file
+	 * @param destination
+	 * 			destination path
 	 * @return file object
 	 */
 	private File fetchFile(String filepath, String destination){

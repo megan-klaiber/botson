@@ -4,7 +4,9 @@ import java.io.File;
 
 import com.ibm.watson.developer_cloud.visual_recognition.v3.VisualRecognition;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.ClassifyImagesOptions;
+import com.ibm.watson.developer_cloud.visual_recognition.v3.model.DetectedFaces;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassification;
+import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualRecognitionOptions;
 
 public class VisualRecognitionController {
 	
@@ -30,7 +32,23 @@ public class VisualRecognitionController {
 			    .build();
 		
 		VisualClassification result = service.classify(options).execute();
-		System.out.println(result.toString());
+		System.out.println(result);
+		return result;
+	}
+	
+	/**
+	 * Detect Faces on an image with IBM Watson service.
+	 * @param photo
+	 * 			image where faces should be detect
+	 * @return the results of the face detection
+	 */
+	public static DetectedFaces faceDetection(File photo){	
+		VisualRecognitionOptions options = new VisualRecognitionOptions.Builder()
+		        .images(photo)
+		        .build();
+		
+		DetectedFaces result = service.detectFaces(options).execute();
+		System.out.println(result);
 		return result;
 	}
 }
