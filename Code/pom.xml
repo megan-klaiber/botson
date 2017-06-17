@@ -12,13 +12,6 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-    
-	<dependency>
-	  <groupId>com.ibm.watson.developer_cloud</groupId>
-	  <artifactId>language-translator</artifactId>
-	  <version>3.8.0</version>
-	</dependency>
-    
 
 	<dependencies>
 		<dependency>
@@ -67,6 +60,12 @@
 		<dependency>
 			<groupId>com.squareup.okhttp3</groupId>
 			<artifactId>okhttp</artifactId>
+			<version>3.8.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ibm.watson.developer_cloud</groupId>
+			<artifactId>language-translator</artifactId>
 			<version>3.8.0</version>
 		</dependency>
 
