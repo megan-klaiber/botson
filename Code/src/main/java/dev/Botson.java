@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -16,9 +17,14 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.telegram.telegrambots.api.methods.GetFile;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Update;
+import org.telegram.telegrambots.api.objects.replykeyboard.ForceReplyKeyboard;
+import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardButton;
+import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
+import com.ibm.watson.developer_cloud.language_translator.v2.model.Language;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.model.SpeechResults;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.DetectedFaces;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.Face;
@@ -32,6 +38,34 @@ public class Botson extends TelegramLongPollingBot {
 	public void onUpdateReceived(Update update) {
 		// check if message is a text message
 		if (update.getMessage().hasText()) {
+			if (update.getMessage().getText().startsWith("/translate")) {
+				LanguageTranslationController.translate("Das Haus ist blau", Language.AFRIKAANS);
+				
+//				String translation = LanguageTranslationController.translate("The sea is blue. The rabbit is black.", Language.ENGLISH, Language.GERMAN).getFirstTranslation();
+//				prepareAndSendMessage(update, "English to German:\nThe sea is blue. The rabbit is black.\n" + translation);
+				
+//				translation = LanguageTranslationController.translate("Hast du Tim gesehen? Ja, er ist bei Karl.", Language.GERMAN, Language.ENGLISH).getFirstTranslation();
+//				prepareAndSendMessage(update, "German to English:\nHast du Tim gesehen? Ja, er ist bei Karl.\n" + translation);
+				
+//				KeyboardRow kbrow = new KeyboardRow();
+//				kbrow.add(new KeyboardButton("English"));
+//				kbrow.add(new KeyboardButton("German"));
+				
+//				List<KeyboardRow> kbrowlist = new ArrayList<>();
+				
+//				kbrowlist.add(kbrow);
+				
+//				SendMessage msg = new SendMessage()
+//						.setReplyMarkup(new ReplyKeyboardMarkup().setKeyboard(kbrowlist))
+//						.setChatId(update.getMessage().getChatId())
+//						.setText("Dies ist ein Textitext :)");
+				
+//				try {
+//					sendMessage(msg);
+//				} catch (TelegramApiException e) {
+//					e.printStackTrace();
+//				}
+			}
 			
 		}
 		
