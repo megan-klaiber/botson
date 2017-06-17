@@ -30,7 +30,8 @@ public class Messages {
 		else {
 			properties.put("Botson.token", System.getenv("Botson.token"));
 			properties.put("Botson.username", System.getenv("Botson.username"));
-			properties.put("Botson.fileDestination", System.getenv("Botson.fileDestination"));
+			properties.put("Botson.SpeechFileDestination", System.getenv("Botson.SpeechFileDestination"));
+			properties.put("Botson.VisualFileDestination", System.getenv("Botson.VisualFileDestination"));
 			
 			String envVariables = System.getenv("VCAP_SERVICES");
 			
