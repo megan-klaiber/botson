@@ -30,6 +30,9 @@ public class App {
         // Initialize Visual Recognition Controller
         VisualRecognitionController.init();
         
+        // Initialize Language Translation Controller
+        LanguageTranslationController.init();
+        
         // Instantiate Telegram Bots API
         TelegramBotsApi botsApi = new TelegramBotsApi();
 
