@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -101,7 +102,7 @@ public class Botson extends TelegramLongPollingBot {
 					// get the classes with the names and scores
 					SortByClassScore comp = new SortByClassScore();
 					List<VisualClass> classes = vc.getClasses();
-					classes.sort(comp);
+					Collections.sort(classes, comp);
 					for (VisualClass vcl : classes) {
 						String c = vcl.getName();
 						String s = f.format(vcl.getScore() * 100);
