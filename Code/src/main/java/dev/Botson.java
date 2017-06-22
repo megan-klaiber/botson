@@ -35,11 +35,9 @@ public class Botson extends TelegramLongPollingBot {
 		// check if message is a text message
 		if (update.getMessage().hasText()) {
 			if (update.getMessage().getText().startsWith("/translate2german")) {
-				String textToTranslate = update.getMessage().getText().replace("/translate2german", "");
-				translateString(update, textToTranslate, Language.ENGLISH, Language.GERMAN);
+				translateString(update, Language.ENGLISH, Language.GERMAN);
 			} else if (update.getMessage().getText().startsWith("/translate2english")) {
-				String textToTranslate = update.getMessage().getText().replace("/translate2english","");
-				translateString(update, textToTranslate, Language.GERMAN, Language.ENGLISH);
+				translateString(update, Language.GERMAN, Language.ENGLISH);
 			}
 		}
 		// check if message is a voice message
@@ -54,18 +52,22 @@ public class Botson extends TelegramLongPollingBot {
 	 * Translate a given String
 	 * @param update
 	 * 			Telegram update object
-	 * @param textToTranslate
-	 * 			Text which should be translated
 	 * @param sourceLanguage
 	 * 			language of the given string
 	 * @param targetLanguage
 	 * 			target language
 	 */
-	private void translateString(Update update, String textToTranslate, Language sourceLanguage, Language targetLanguage){
+	private void translateString(Update update, Language sourceLanguage, Language targetLanguage){
+		// remove the first word from the string because that would every time be the commands name followed by the bots name
+		String textToTranslate = update.getMessage().getText().replaceFirst("[/a-z0-9@_]*", "");
 		String translation = LanguageTranslationController.translate(textToTranslate, sourceLanguage ,targetLanguage)
 				.getFirstTranslation();
 		System.out.println(translation);
-		prepareAndSendMessage(update, translation);
+		if (translation == null) {
+			prepareAndSendMessage(update, "Sorry, I didn't understand that.");
+		} else {
+			prepareAndSendMessage(update, translation);
+		}
 	}
 	
 
