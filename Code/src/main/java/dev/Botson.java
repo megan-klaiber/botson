@@ -99,7 +99,9 @@ public class Botson extends TelegramLongPollingBot {
 					classification += "\n\n" + classifierId + " classifier:\n";
 
 					// get the classes with the names and scores
+					SortByClassScore comp = new SortByClassScore();
 					List<VisualClass> classes = vc.getClasses();
+					classes.sort(comp);
 					for (VisualClass vcl : classes) {
 						String c = vcl.getName();
 						String s = f.format(vcl.getScore() * 100);
